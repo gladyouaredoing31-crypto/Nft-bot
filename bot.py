@@ -29,10 +29,10 @@ async def price_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     price = match.group(2)
 
     caption = (
-        f"🎁 *Предложение NFT*\n\n"
-        f"🔗 Ссылка: {nft_link}\n"
-        f"💰 Цена: *{price} Stars*\n\n"
-        f"Жми кнопку ниже, чтобы запросить подарок."
+        "🎁 *Предложение NFT*\n\n"
+        "🔗 Ссылка: " + nft_link + "\n"
+        "💰 Цена: *" + price + " Stars*\n\n"
+        "Жми кнопку ниже, чтобы запросить подарок."
     )
 
     keyboard = [[InlineKeyboardButton("🎁 Передать NFT", callback_data="request_gift")]]
@@ -45,13 +45,21 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer() # Убираем "часики" загрузки
 
     if query.data == "request_gift":
-        # Меняем текст сообщения и убираем кнопку
+        # Формируем ссылку на твой профиль
+        profile_link = "https://t.me/" + YOUR_USERNAME
+        
+        # Собираем текст без сложных скобок
         new_text = (
-            f"✅ *Запрос отправлен!*\n\n"
-            f"Перейди в профиль отправителя и нажми «Отправить подарок»:\n"
-            f"👉 [Перейти в профиль](https://t.me/{Hddddtt)"
+            "✅ *Запрос отправлен!*\n\n"
+            "Перейди в профиль отправителя и нажми «Отправить подарок»:\n"
+            "👉 [Перейти в профиль](" + profile_link + ")"
         )
-        await query.edit_message_text(text=new_text, parse_mode="Markdown", disable_web_page_preview=True)
+        
+        await query.edit_message_text(
+            text=new_text, 
+            parse_mode="Markdown", 
+            disable_web_page_preview=True
+        )
 
 def main():
     if not BOT_TOKEN:
